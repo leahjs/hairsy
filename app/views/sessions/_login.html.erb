@@ -1,0 +1,24 @@
+<h1>log in</h1>
+<div class="row">
+    <%= form_for(:session, url: attempt_login_path) do |f| %>
+
+      <%= f.label :email %>
+      <%= f.email_field :email, class: 'form-control' %>
+
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control' %>
+
+      <%= f.submit "Log in", class: "btn btn-primary" %>
+    <% end %>
+
+    <p>New user? <%= link_to "Sign up now!", signup_path %></p>
+</div>
+
+<span class="error-message" style="color:red;">
+<% if flash[:error] -%>
+  <p class='error'><%=h flash[:error] %></p>
+<% end -%>
+<% if flash[:notice] -%>
+  <p class='notice'><%=h flash[:notice] %></p>
+<% end -%>
+</span>

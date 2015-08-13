@@ -1,0 +1,29 @@
+<div class="row">
+    <%= form_for(@user) do |f| %>
+
+      <%= f.label :username %>
+      <%= f.text_field :username, class: 'form-control' %><br>
+
+      <%= f.label :email %>
+      <%= f.email_field :email, class: 'form-control' %><br>
+
+      <%= f.label :email_confirmation %>
+      <%= f.email_field :email_confirmation %><br>
+
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control' %><br>
+
+      <%= f.submit "Sign Up", class: "btn btn-primary" %>
+    <% end %>
+
+    <p>Returning user? <%= link_to "log In now!", login_path %></p>
+</div>
+
+<span class="error-message">
+<% if flash[:error] -%>
+  <p class='error' style="color:red;"><%=h flash[:error] %></p>
+<% end -%>
+<% if flash[:notice] -%>
+  <p class='notice' style="color:green;"><%=h flash[:notice] %></p>
+<% end -%>
+</span>
