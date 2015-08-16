@@ -1,9 +1,16 @@
 class SessionsController < ApplicationController
+  before_action :only => [:new] do
+    if signed_in?
+      redirect_to user_path(@current_user)
+    end
+  end
+
   def new
   end
 
   def create
-    found_user = User.find_by_email(session_params[:email])
+    found_user = User.find_by_email(session_params[:email].downcase!)
+
     if found_user && found_user.authenticate(session_params[:password])
       session[:user_id] = found_user.id
       redirect_to user_path(found_user)
@@ -13,13 +20,13 @@ class SessionsController < ApplicationController
       else
         flash[:error] = 'Invalid email or password' # Not quite right!
       end
-        redirect_to login_path
+        redirect_to signin_path
     end
   end
 
   def destroy
     session[:user_id] = nil
-    redirect_to login_path
+    redirect_to signin_path
   end
 
 private

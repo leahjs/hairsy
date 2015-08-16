@@ -1,14 +1,11 @@
 Rails.application.routes.draw do
+  root 'hompage#landing'
+  get 'sessions/new', as: :signin, path: :signin
+  post 'sessions/create', as: :attempt_signin
+  get 'sessions/destroy', as: :signout, path: :signout
+  get 'users/new', as: :signup, path: :signup
 
-  get 'sessions/new', path: :login, as: :login
+  resources :users, :except => [:destroy, :index] do
 
-  post 'sessions/create', as: :attempt_login
-
-  get 'sessions/destroy', path: :logout, as: :logout
-
-  get 'users/new', path: :signup, as: :signup
-
-  resources :users, :except => [:new, :index]
-
-
+  end
 end

@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :require_signin, :except => [:new, :create]
 
   def new
     @user = User.new
@@ -32,11 +33,14 @@ class UsersController < ApplicationController
   end
 
   def update
-
+    user = User.find(current_user)
+    user.update(user_params)
+    flash[:notice] = 'Profile Updated.' # Not quite right!
+    redirect_to edit_user_path
   end
 
   def destroy
-
+    # @user.destroy
   end
 
   private
@@ -45,20 +49,19 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :gender, :birth_year, :size, :country)
+      params.require(:user).permit(:photo, :first_name, :last_name, :gender, :birth_year, :size, :country)
     end
 
     def member_already?
-      !!(User.find_by_email(signup_params[:email]))
+      !!(User.find_by_email(user_params[:email]))
     end
 
     def username_taken?
-      !!(User.find_by_username(signup_params[:username]))
+      !!(User.find_by_username(user_params[:username]))
     end
 
     def missing_signup_params?
       signup_params[:email].blank? || signup_params[:password].blank? || signup_params[:username].blank?
     end
-
 
 end
