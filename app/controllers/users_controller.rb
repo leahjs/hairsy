@@ -39,6 +39,19 @@ class UsersController < ApplicationController
     redirect_to edit_user_path
   end
 
+  def update_email
+    if current_user.authenticate(update_email_params[:password])
+      current_user.update(:email => update_email_params[:email])
+      flash[:notice] = 'Email Updated.' # Not quite right!
+    else
+      flash[:error] = 'Profile Not Upated.' # Not quite right!
+    end
+    redirect_to edit_user_path
+  end
+
+
+
+
   def destroy
     # @user.destroy
   end
@@ -50,6 +63,10 @@ class UsersController < ApplicationController
 
     def user_params
       params.require(:user).permit(:photo, :first_name, :last_name, :gender, :birth_year, :size, :country)
+    end
+
+    def update_email_params
+      params.require(:current_user).permit(:email, :password)
     end
 
     def member_already?

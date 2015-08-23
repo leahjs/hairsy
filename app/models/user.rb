@@ -3,9 +3,10 @@ class User < ActiveRecord::Base
 
   #VAILDATIONS
   validates :email, confirmation: true
-  validates :username, :email, uniqueness: true
-  validates :password, :email, :username, presence: true
-  
+  validates :username, presence: true, uniqueness: true, :on => :create
+  validates :email, uniqueness: true, presence: true
+  validates :password, presence: true, :on => [:create]
+
   before_create :downcase_attributes
 
 
